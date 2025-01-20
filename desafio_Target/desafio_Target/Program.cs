@@ -1,5 +1,7 @@
-﻿using desafio_Target.Atividade_1;
+﻿using System.Text.Json;
+using desafio_Target.Atividade_1;
 using desafio_Target.Atividades;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static desafio_Target.Atividades.Atividade2;
 
 namespace desafio_Target
@@ -35,8 +37,38 @@ namespace desafio_Target
 
             //Atividade - 3
 
-            string caminhoArquivo = "faturamento.json";
+            string caminhoArquivo = Path.Combine(Directory.GetCurrentDirectory(), "Data", "faturamento.json");
 
+            string pastaData = Path.Combine(Directory.GetCurrentDirectory(), "Data");
+            if (!Directory.Exists(pastaData))
+            {
+                Directory.CreateDirectory(pastaData);
+            }
+
+            if (!File.Exists(caminhoArquivo))
+            {
+                var dadosFaturamento = new List<Atividade3>
+            {
+                new Atividade3 { Dia = 1, Faturamento = 2500 },
+                new Atividade3 { Dia = 2, Faturamento = 3000 },
+                new Atividade3 { Dia = 3, Faturamento = 1800 },
+                new Atividade3 { Dia = 4, Faturamento = 2200 },
+                new Atividade3 { Dia = 5, Faturamento = 0 },
+                new Atividade3 { Dia = 6, Faturamento = 2700 },
+                new Atividade3 { Dia = 7, Faturamento = 3000 }
+            };  
+
+
+                string json = JsonSerializer.Serialize(dadosFaturamento);
+
+                File.WriteAllText(caminhoArquivo, json);
+
+                Console.WriteLine("Arquivo 'faturamento.json' criado com dados iniciais.");
+            }
+            else
+            {
+                Console.WriteLine("O arquivo 'faturamento.json' já existe.");
+            }
             var faturamentos = FaturamentoService.CarregarFaturamentoDeArquivo(caminhoArquivo);
 
             decimal menorFaturamento = FaturamentoService.CalcularMenorFaturamento(faturamentos);
