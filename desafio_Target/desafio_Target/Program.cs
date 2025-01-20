@@ -58,7 +58,6 @@ namespace desafio_Target
                 new Atividade3 { Dia = 7, Faturamento = 3000 }
             };  
 
-
                 string json = JsonSerializer.Serialize(dadosFaturamento);
 
                 File.WriteAllText(caminhoArquivo, json);
@@ -69,6 +68,7 @@ namespace desafio_Target
             {
                 Console.WriteLine("O arquivo 'faturamento.json' já existe.");
             }
+
             var faturamentos = FaturamentoService.CarregarFaturamentoDeArquivo(caminhoArquivo);
 
             decimal menorFaturamento = FaturamentoService.CalcularMenorFaturamento(faturamentos);
